@@ -1,0 +1,29 @@
+/* css for GD widgets */
+
+.BookingForm {
+}
+.BookingForm th h1{
+    border: none;
+    padding: 2px 0 4px;
+    color:#528500;
+    font-style:normal;
+    font-weight:bold;
+    font-size:1.2em;
+}
+.BookingForm .header th {
+    background-color:#A3E066;
+}
+.BookingForm table tr{
+    border: 1px solid grey;
+}
+.BookingForm table th {
+    width:10em;
+}
+.BookingForm table td ,
+.BookingForm table th {
+    background-color: #DBF9BD;
+    border-color:#FFF;
+    border-width:0 0 1px 0;
+    border-style:solid;
+
+}

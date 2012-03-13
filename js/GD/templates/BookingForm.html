@@ -1,0 +1,69 @@
+<div class="BookingForm">
+    <form action="post">
+        <table>
+            <tr class="header">
+                <th colspan="2">
+                    {% if title %}
+                    <h1 class="{{ titleClass }}">{{ title }}</h1>
+                    {% endif %}
+                </th> 
+            </tr>
+            <tr>
+                <th>Course</th>
+                <td>{{ golfCourse }}</td>
+            </tr>
+            <tr>
+                <th>Deal Type</th>
+                <td>{{ dealType }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ date }}</td>
+            </tr>
+            <tr>
+                <th>Teetime</th>
+                <td>
+                    {% for time in teetime %}
+                    <span class="time">{{ time }}</span>&nbsp&nbsp
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr class="header">
+                <th colspan="2">
+                    <h1 class="{{ titleClass }}">Payment:</h1>
+                </th> 
+            </tr>
+            <tr>
+                <th>Credit Card Type</th>
+                <td>
+                    <select name="cc-type" value="visa" onChange="var fn =function(){}" style="width:150px" data-dojo-type="dijit.form.Select">
+                    <option value="visa" selected="selected">Visa</option>
+                    <option value="mastercard">MasterCard</option>
+                </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Credit Card Number</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Credit card security number</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Name on card</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Expiry Date</th>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <button data-dojo-type="dijit.form.Button" type="submit" disabled="{{ disabled }}">Book!</button>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    </form>
+</div>
