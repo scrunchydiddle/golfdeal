@@ -34,8 +34,9 @@ class SiteController extends Controller
 
     public function actionListing()
     {
-        $state = CHttpRequest::getParam('state',1);
-        $startDate = CHttpRequest::getParam('startDate',date(Constants::DB_DATE_FORMAT,time()));
+		$req = Yii::app()->getRequest();
+        $state = $req->getParam('state',1);
+        $startDate = $req->getParam('startDate',date(Constants::DB_DATE_FORMAT,time()));
         $endDate = strtotime($startDate);
         $endDate = date(Constants::DB_DATE_FORMAT,strtotime("+13 day",$endDate));
         $model = new Listing($state,$startDate,$endDate);
@@ -52,8 +53,9 @@ class SiteController extends Controller
     }
 
     public function actionBooking(){
-        $gcid = CHttpRequest::getParam('gcid');
-        $date = CHttpRequest::getParam('date',date(Constants::DB_DATE_FORMAT,time()));
+		$req = Yii::app()->getRequest();
+        $gcid = $req->getParam('gcid');
+        $date = $req->getParam('date',date(Constants::DB_DATE_FORMAT,time()));
         $model = new Booking($gcid,$date);
         $data = $model->getDealDetails();
         $columns = $model->getPeriod();

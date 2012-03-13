@@ -5,17 +5,30 @@ define("GD/BookingForm", [
         "dijit/_WidgetBase", 
         "dojox/dtl/_Templated", 
         "dijit/form/Button", 
-        "dijit/form/Select", 
+        "dijit/form/Select",
+		"dijit/form/TextBox",		
         "dojox/dtl/tag/logic"
         ], 
         function(declare, array, cache, wb, tm) {
 	declare("GD.BookingForm", [wb, tm], {
+		constructor: function(){
+			var date = new Date();
+			
+			this.years = [];
+			var counter = 0;
+			while (this.years.length != 12 ){
+				var year = String(date.getFullYear()).substring(2,4);
+				this.years.push(year);	
+			}
+		},
+		months: [ 1,2,3,4,5,6,7,8,9,10,11,12 ],
 		title: null,
 		titleClass: '',
 		golfCourse: '',
 		dealType: '',
 		date: '',
 		teetime: [],
+		cctype: [ 'Visa','MasterCard'],
         disabled: true,
 		templateString: cache("GD", "templates/BookingForm.html"),
 		widgetsInTemplate: true,
@@ -49,7 +62,6 @@ define("GD/BookingForm", [
                 this.disabled = true;
 				return false;
 			} else if (!this.dealType) {
-                console.log('test2');
                 this.disabled = true;
 				return false;
 			} else if (!this.date){

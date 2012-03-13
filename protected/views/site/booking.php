@@ -1,58 +1,5 @@
 <script>
 require(["dojo/_base/connect","dojo/domReady!"],function(connect){
-    require(["GD/TableForm","dijit/form/Textarea"],function(){
-        var ta = new dijit.form.Textarea();
-        var title = {
-            booking: new dijit.layout.ContentPane({
-                content:'Booking Details',
-                colspan:2
-            }),
-            payment: new dijit.layout.ContentPane({
-                content:'Payment Details',
-                colspan:2
-            })
-        };
-        var labels = {
-            course: new dijit.layout.ContentPane({
-                content:'Course:'
-            }),
-            dealtype: new dijit.layout.ContentPane({
-                content:'DealType:'
-            }),
-            date: new dijit.layout.ContentPane({
-                content:'Date:'
-            }),
-            teetime: new dijit.layout.ContentPane({
-                content:'TeeTime:'
-            }),
-            cctype: new dijit.layout.ContentPane({
-                content:'Credit Card Type:'
-            }),
-            ccnumber: new dijit.layout.ContentPane({
-                content:'Credit Card Number:'
-            }),
-        };
-        var text = {
-            course: new dijit.layout.ContentPane({
-                content:'Bukit Jalil Golf Course'
-            }),
-        }
-        var tf = new GD.TableForm({
-            name:'tabularform',
-            tableConfig:{
-                cols:2,
-                showLabels: false
-            },
-            items:[
-                title.booking,
-                labels.course,text.course
-            ]
-        }); 
-        tf.placeAt('booking-form');
-    
-    });
-
-
     require(["GD/BookingForm"],function(){
         bForm = new GD.BookingForm({
             title: 'Booking Form',
@@ -61,6 +8,7 @@ require(["dojo/_base/connect","dojo/domReady!"],function(connect){
             'date':"<?php echo $_GET['date']; ?>"
         });
         bForm.placeAt('booking-form');
+		bForm.render();
     });
     require(["GD/MatrixTable"],function(toggler){
         mt = new GD.MatrixTable({

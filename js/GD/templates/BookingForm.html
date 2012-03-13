@@ -36,27 +36,58 @@
             <tr>
                 <th>Credit Card Type</th>
                 <td>
-                    <select name="cc-type" value="visa" onChange="var fn =function(){}" style="width:150px" data-dojo-type="dijit.form.Select">
-                    <option value="visa" selected="selected">Visa</option>
-                    <option value="mastercard">MasterCard</option>
+                <select name="cc-type" value="visa" onChange="var fn =function(){}" style="width:150px" data-dojo-type="dijit.form.Select">
+				{% for type in cctype %}
+                    <option value="{{ type }}" selected="selected">{{ type }}</option>
+				{% endfor %}
                 </select>
                 </td>
             </tr>
             <tr>
                 <th>Credit Card Number</th>
-                <td></td>
+                <td>
+				<input type="text" name="ccnumber" value=""
+					data-dojo-type="dijit.form.TextBox"
+					data-dojo-props="trim:true, propercase:true">
+				</td>
             </tr>
             <tr>
                 <th>Credit card security number</th>
-                <td></td>
+                <td>
+				<input type="text" name="ccsecnumber" value=""
+					style="width:50px"
+					data-dojo-type="dijit.form.TextBox"
+					data-dojo-props="trim:true, propercase:true">
+				</td>
+				</td>
             </tr>
             <tr>
                 <th>Name on card</th>
-                <td></td>
+                <td>
+				<input type="text" name="cc-name" value=""
+					data-dojo-type="dijit.form.TextBox"
+					data-dojo-props="trim:true, propercase:true">
+				</td>
+				</td>
             </tr>
             <tr>
                 <th>Expiry Date</th>
-                <td></td>
+                <td>    
+				
+				<select name="cc-exp-month" onChange="var fn =function(){}" style="width:50px" data-dojo-type="dijit.form.Select">
+					<option value="MM" selected="selected">MM</option>
+				{% for month in months %}
+                    <option value="{{ month }}" selected="selected">{{ month }}</option>
+				{% endfor %}
+                </select>
+				/
+				<select name="cc-exp-year" onChange="var fn =function(){}" style="width:50px" data-dojo-type="dijit.form.Select">
+					<option value="YY" selected="selected">YY</option>
+				{% for year in years %}
+                    <option value="{{ year }}">{{ year }}</option>
+				{% endfor %}
+                </select>
+				</td>
             </tr>
             <tr>
                 <td>

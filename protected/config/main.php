@@ -50,9 +50,9 @@ return array(
 		),
          */
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=golfdeal',
+			'connectionString' => 'mysql:host=localhost;dbname=golf',
 			'emulatePrepare' => true,
-			'username' => 'admin_golfdeal',
+			'username' => 'golf_admin',
 			'password' => 'q1w2e3r4t5',
 			'charset' => 'utf8',
 		),
