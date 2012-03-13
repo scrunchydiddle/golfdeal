@@ -17,7 +17,8 @@ define("GD/BookingForm", [
 			this.years = [];
 			var counter = 0;
 			while (this.years.length != 12 ){
-				var year = String(date.getFullYear()).substring(2,4);
+				var year = String(date.getFullYear() + counter).substring(2,4);
+				counter++;
 				this.years.push(year);	
 			}
 		},
