@@ -27,7 +27,7 @@ class StatesController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','list'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -161,6 +161,15 @@ class StatesController extends Controller
 		return $model;
 	}
 
+	public function actionList()
+	{
+		$states = States::model()->findAll();
+		$data = array();
+		foreach ($states as $state){
+			array_push($data, $state->attributes);
+		}
+		$this->renderPartial('/service/json',array( 'data' => $data ));
+	}
 	/**
 	 * Performs the AJAX validation.
 	 * @param CModel the model to be validated
@@ -173,4 +182,6 @@ class StatesController extends Controller
 			Yii::app()->end();
 		}
 	}
+	
+	
 }
