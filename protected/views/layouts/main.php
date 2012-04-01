@@ -15,6 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/GD.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/js/dijit/themes/claro/claro.css" />
+	
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/dojo/dojo.js"></script>
     <script>
     //add GD to dojo apth so we can use require dojo AMD style

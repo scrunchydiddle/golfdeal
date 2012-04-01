@@ -1,93 +1,87 @@
 dojo.provide("GD.Form.GolfCourse");
-dojo.require('dijit.form.Form');
+dojo.require('GD.Form');
 dojo.require('dijit.form.TextBox');
 dojo.require('dijit.form.Select');
 dojo.require('dijit.form.TimeTextBox');
-dojo.require('dijit.form.TextArea');
+dojo.require('dijit.form.SimpleTextArea');
+dojo.require('dijit.form.Button');
 
-GD.Form.GolfCourse = new dijit.form.Form();
-var title = dojo.create('div').appendChild(dojo.doc.createTextNode("Add new Golf Course"));
-GD.Form.GolfCourse.domNode.appendChild(title);
-
-dojo.xhrGet({
-	url:'states/list',
-	handleAs:"json",
-	load:function(data){
-		var nameTb = new dijit.form.TextBox({
-			name: 'name'
-		});
-		var tb = dojo.create('div');
-		tb.appendChild(dojo.doc.createTextNode("Name "));
-		tb.appendChild(nameTb.domNode);
-		
-		GD.Form.GolfCourse.domNode.appendChild(tb);
-
-		var statesSel = new dijit.form.Select({
-			name: 'states',
-			style:{width:100},
-			
-			options: dojo.map(data.data,function(item){
+GD.Form.GolfCourse = new GD.Form({
+	title:'Register new Golf Course',
+	
+	items:[
+		new dijit.form.TextBox({
+			name: 'name',
+			label:'Name :'
+		}),
+		new dijit.form.Select({
+			name: 'state',
+			label: 'State: ',
+			style:{
+				width:'100px'
+			},
+			options: dojo.map(GD.Stash.states,function(item){
 				return {
 					label: item.name,
 					value: item.id
-				}
+				};
 			})
-		});
-
-		var sel = dojo.create('div');
-		sel.appendChild(dojo.doc.createTextNode("States "));
-		sel.appendChild(statesSel.domNode);
-		
-		GD.Form.GolfCourse.domNode.appendChild(sel);
-		
-		var startTime = new dijit.form.TimeTextBox({
-			name: 'start',
-			value: new Date(),
+		}),
+		new dijit.form.TimeTextBox({
+			name: 'start_time',
+			label: 'Opening Time :',
+			value: new Date(0),
 			clickableIncrement:'T00:15:00', 
 			visibleIncrement:'T00:15:00', 
 			visibleRange:'T01:00:00'
-		});
-		
-		var strtLabel = dojo.create('div');
-		strtLabel.appendChild(dojo.doc.createTextNode("Opening Time "));
-		strtLabel.appendChild(startTime.domNode);
-		
-		GD.Form.GolfCourse.domNode.appendChild(strtLabel);
-		
-		var endTime = new dijit.form.TimeTextBox({
-			name: 'end',
-			value: new Date(),
+		}),
+		new dijit.form.TimeTextBox({
+			name: 'end_time',
+			label: 'Closing Time :',
+			value: new Date(0),
 			clickableIncrement:'T00:15:00', 
 			visibleIncrement:'T00:15:00', 
 			visibleRange:'T01:00:00'
-		});
-		
-		var endLabel = dojo.create('div');
-		endLabel.appendChild(dojo.doc.createTextNode("Closing Time "));
-		endLabel.appendChild(endTime.domNode);
-		
-		GD.Form.GolfCourse.domNode.appendChild(endLabel);
-		
-		var realPrice = new dijit.form.TextBox({
-			name: 'realPrice'
-		});
-		var rp = dojo.create('div');
-		rp.appendChild(dojo.doc.createTextNode("Real Price "));
-		rp.appendChild(realPrice.domNode);
-		
-		GD.Form.GolfCourse.domNode.appendChild(rp);
-		
-		var description = new dijit.form.Textarea({
+		}),
+		new dijit.form.TextBox({
+			name: 'real_price',
+			label: 'Walk in Price :'
+		}),
+		new dijit.form.SimpleTextarea({
 			name:'description',
-			label:'description'
-		});
+			label:'Description',
+			rows:5,
+			style: {
+				width:'300px',
+			}
+		}),
 		
-		var desc = dojo.create('div');
-		desc.appendChild(dojo.doc.createTextNode("Description "));
-		desc.appendChild(description.domNode);
-		
-		GD.Form.GolfCourse.domNode.appendChild(desc);
-	
-	}
+	],
+	formButtons:[
+		new dijit.form.Button({
+			label: 'Submit',
+			getTimeFromDate: function(dateObj){
+				return dojo.date.locale.format(dateObj,{selector:'time',timePattern:"HH:mm:ss"});
+			},
+			onClick: function(){
+				GD.Form.GolfCourse.mask.show();
+				var postContent = dojo.mixin(GD.Form.GolfCourse.getValues(),{
+					ajax: true
+				});
+				
+				postContent.start_time = this.getTimeFromDate(postContent.start_time);
+				postContent.end_time = this.getTimeFromDate(postContent.end_time);
+
+				dojo.xhrPost({
+					url:'golfCourse/create',
+					content: postContent,
+					load: function(){
+						GD.Form.GolfCourse.mask.hide();
+					}
+				});
+			}
+		})
+	]
 });
+
 

@@ -2,23 +2,35 @@
 
 class ManageController extends Controller
 {
+	public $layout='//layouts/main';
+	public function filters()
+	{
+		return array(
+			'accessControl', // perform access control for CRUD operations
+		);
+	}
+	public function accessRules()
+	{
+		return array(
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('index'),
+				'users'=>array('admin'),
+			),
+			array('deny',  // deny all users
+				'actions'=>array('index'),
+				'users'=>array('*'),
+			),
+		);
+	}
 	public function actionIndex(){
-		$this->renderPartial('/service/json',array(
-			'1' => array(
-				'one' => 'two'
-			)
-		));
-		$goulf_courses = GolfCourse::model()->findAll();
-		$course_stash = array();
-		foreach($goulf_courses as $gc){
-			array_push($course_stash,$gc->attributes);
-		}
+		$getAttr = function($row){ return $row->attributes; }; 	
+
 		$this->render('index',array(
 			'stash' => array(
-				'states' => $course_stash
+				'courses' => array_map($getAttr,GolfCourse::model()->findAll()),
+				'states' => array_map($getAttr,States::model()->findAll())
 			)
 		));
 	}
-	
 	
 }

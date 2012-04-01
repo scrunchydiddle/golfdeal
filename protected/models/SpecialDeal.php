@@ -44,7 +44,7 @@ class SpecialDeal extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('deal_id, deal_date, tee_time, price, limit, sold, sold_out', 'required'),
+			array('deal_id, deal_date, tee_time, price, limit', 'required'),
 			array('deal_id, price, limit, sold, sold_out', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

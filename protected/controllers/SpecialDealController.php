@@ -75,17 +75,33 @@ class SpecialDealController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
+		if(isset($_POST['ajax'])){
+			$model->attributes=$_POST;
+			if($model->save()){
+				$this->renderPartial('/service/json',array(
+					'data' => array(
+						'id' => $model->special_deal_id
+					)
+				));
+			} else {
+				$this->renderPartial('/service/json',array(
+					'data' => array(
+						'error' => $model->getErrors()
+					)
+				));
+			}
+		} else {
+			if(isset($_POST['SpecialDeal']))
+			{
+				$model->attributes=$_POST['SpecialDeal'];
+				if($model->save())
+					$this->redirect(array('view','id'=>$model->special_deal_id));
+			}
 
-		if(isset($_POST['SpecialDeal']))
-		{
-			$model->attributes=$_POST['SpecialDeal'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->special_deal_id));
+			$this->render('create',array(
+				'model'=>$model,
+			));
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
 
 	/**

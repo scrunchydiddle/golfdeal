@@ -35,7 +35,7 @@ class GolfCourseController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','viewdeals'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -54,6 +54,21 @@ class GolfCourseController extends Controller
 			'model'=>$this->loadModel($id),
 		));
 	}
+	
+	public function actionViewDeals($id)
+	{
+	
+		$deals = Deal::model()->findAll(array(
+			'condition' => 'golf_course_id=:id',
+			'params' => array(':id' => $id)
+		));
+		
+		$this->renderPartial('/service/json',array(
+			'data' => array_map(function($deal){
+				return $deal->attributes;
+			},$deals)
+		));
+	}
 
 	/**
 	 * Creates a new model.
@@ -65,17 +80,27 @@ class GolfCourseController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
+		if(isset($_POST['ajax'])){
+			$model->attributes=$_POST;
+			if($model->save()){
+				$this->renderPartial('/service/json',array(
+					'data' => array(
+						'id' => $model->id
+					)
+				));
+			}	
+		} else {
+			if(isset($_POST['GolfCourse']))
+			{
+				$model->attributes= $_POST;
+				if($model->save())
+					$this->redirect(array('view','id'=>$model->id));
+			}
 
-		if(isset($_POST['GolfCourse']))
-		{
-			$model->attributes=$_POST['GolfCourse'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			$this->render('create',array(
+				'model'=>$model,
+			));
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
 
 	/**

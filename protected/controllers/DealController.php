@@ -50,9 +50,17 @@ class DealController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		if(isset($_GET['ajax'])){
+			$this->renderPartial('/service/json',array(
+				'data' => array(
+					'id' => $this->loadModel($id)->attributes,
+				)
+			));
+		} else {
+			$this->render('view',array(
+				'model'=>$this->loadModel($id),
+			));
+		}
 	}
 
 	/**
@@ -65,17 +73,27 @@ class DealController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
+		if(isset($_POST['ajax'])){
+			$model->attributes=$_POST;
+			if($model->save()){
+				$this->renderPartial('/service/json',array(
+					'data' => array(
+						'id' => $model->deal_id
+					)
+				));
+			}	
+		} else {
+			if(isset($_POST['Deal']))
+			{
+				$model->attributes=$_POST['Deal'];
+				if($model->save())
+					$this->redirect(array('view','id'=>$model->deal_id));
+			}
 
-		if(isset($_POST['Deal']))
-		{
-			$model->attributes=$_POST['Deal'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->deal_id));
+			$this->render('create',array(
+				'model'=>$model,
+			));
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
